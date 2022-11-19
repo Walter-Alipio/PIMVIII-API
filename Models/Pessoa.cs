@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Cadastro_Teleatendimento.Models
 {
-  class Pessoa
+  public class Pessoa
   {
     [Key]
     [Required]
@@ -16,9 +16,11 @@ namespace Cadastro_Teleatendimento.Models
     public int Cpf { get; set; }
 
     [Required(ErrorMessage = "Campo obrigatório!")]
-    public Endereco? endereco { get; set; }
+    public int IdEndereco { get; set; }
+    public virtual Endereco? endereco { get; set; }
 
     [Required(ErrorMessage = "Campo obrigatório!")]
-    public List<Telefone>? telefones { get; set; }
+    public int IdTelefone { get; set; }
+    public virtual List<Telefone>? telefones { get; set; }
   }
 }

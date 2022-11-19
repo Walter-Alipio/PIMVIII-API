@@ -2,13 +2,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Cadastro_Teleatendimento.Models
 {
-  class TelefoneTipo
+  public class TelefoneTipo
   {
     [Key]
     [Required]
     public int IdTelefoneTipo { get; set; }
 
     [Required(ErrorMessage = "Campo obrigatório!")]
+    [StringLength(10, ErrorMessage = "máximo de {1} carácteres")]
     public string? Tipo { get; set; }
   }
 }

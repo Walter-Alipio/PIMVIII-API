@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Cadastro_Teleatendimento.Models
 {
-  class Endereco
+  public class Endereco
   {
     [Key]
     [Required]

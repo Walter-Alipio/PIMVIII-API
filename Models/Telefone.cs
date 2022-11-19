@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Cadastro_Teleatendimento.Models
 {
-  class Telefone
+  public class Telefone
   {
     [Key]
     [Required]
@@ -15,6 +15,7 @@ namespace Cadastro_Teleatendimento.Models
     public int DDD { get; set; }
 
     [Required(ErrorMessage = "Campo obrigatório!")]
-    public TelefoneTipo? Tipo { get; set; }
+    public int IdTelefoneTipo { get; set; }
+    public virtual TelefoneTipo? Tipo { get; set; }
   }
 }
