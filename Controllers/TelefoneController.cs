@@ -1,5 +1,6 @@
 using Cadastro_Teleatendimento.Data.DTOs.TelefoneDTO;
 using Cadastro_Teleatendimento.Services.Interfaces;
+using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cadastro_Teleatendimento.Controllers
@@ -17,6 +18,9 @@ namespace Cadastro_Teleatendimento.Controllers
     [HttpPost]
     public IActionResult CadastraTelefone(CreateTelefoneDto telefoneDto)
     {
+      Result resultado = _telefoneService.validaTelefone(telefoneDto);
+      if (resultado.IsFailed) return BadRequest(resultado.Errors.FirstOrDefault());
+
       ReadTelefoneDto? readDto = _telefoneService.CadastraTelefone(telefoneDto);
       if (readDto == null) return BadRequest();
 

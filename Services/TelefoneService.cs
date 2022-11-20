@@ -2,6 +2,7 @@ using Cadastro_Teleatendimento.Data;
 using Cadastro_Teleatendimento.Data.DTOs.TelefoneDTO;
 using Cadastro_Teleatendimento.Models;
 using Cadastro_Teleatendimento.Services.Interfaces;
+using FluentResults;
 
 namespace Cadastro_Teleatendimento.Services
 {
@@ -51,6 +52,20 @@ namespace Cadastro_Teleatendimento.Services
         Numero = telefone.Numero,
         IdTelefoneTipo = telefone.IdTelefoneTipo
       };
+    }
+
+    public Result validaTelefone(CreateTelefoneDto telefoneDto)
+    {
+      string dddString = telefoneDto.DDD.ToString();
+      dddString = $"0{dddString}";
+      if (dddString.Length != 3)
+        return Result.Fail("O ddd deve ter 3 caracteres.");
+
+      string telefoneString = telefoneDto.Numero.ToString();
+      if (telefoneString.Length < 8 || telefoneString.Length > 9)
+        return Result.Fail("O telefone deve ter no mínimo de 8 e máximo de 9 caracteres.");
+
+      return Result.Ok();
     }
   }
 }

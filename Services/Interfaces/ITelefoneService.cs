@@ -1,5 +1,6 @@
 
 using Cadastro_Teleatendimento.Data.DTOs.TelefoneDTO;
+using FluentResults;
 
 namespace Cadastro_Teleatendimento.Services.Interfaces
 {
@@ -7,5 +8,6 @@ namespace Cadastro_Teleatendimento.Services.Interfaces
   {
     ReadTelefoneDto? CadastraTelefone(CreateTelefoneDto telefoneDto);
     ReadTelefoneDto? BuscaTelefonePorId(int id);
+    Result validaTelefone(CreateTelefoneDto telefoneDto);
   }
 }

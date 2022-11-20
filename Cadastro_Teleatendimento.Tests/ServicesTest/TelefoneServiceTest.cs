@@ -1,6 +1,7 @@
 using Cadastro_Teleatendimento.Data.DTOs.TelefoneDTO;
 using Cadastro_Teleatendimento.Services;
 using Cadastro_Teleatendimento.Services.Interfaces;
+using FluentResults;
 using Xunit;
 
 namespace Cadastro_Teleatendimento.Tests.ServicesTest
@@ -12,6 +13,38 @@ namespace Cadastro_Teleatendimento.Tests.ServicesTest
     public TelefoneServiceTest()
     {
       _telefoneService = new TelefoneService(new Data.TelefoneDAO());
+    }
+
+    [Fact]
+    public void DDDIncorretoRetornaFail()
+    {
+      //Arrange
+      CreateTelefoneDto createDto = new CreateTelefoneDto()
+      {
+        DDD = 0122,
+        Numero = 22665533,
+        IdTelefoneTipo = 2
+      };
+      //Act
+      var resultado = _telefoneService.validaTelefone(createDto);
+      //Assert
+      Assert.Equal(true, resultado.IsFailed);
+    }
+
+    [Fact]
+    public void TelefoneIncorretoRetornaFail()
+    {
+      //Arrange
+      CreateTelefoneDto createDto = new CreateTelefoneDto()
+      {
+        DDD = 012,
+        Numero = 226653,
+        IdTelefoneTipo = 2
+      };
+      //Act
+      var resultado = _telefoneService.validaTelefone(createDto);
+      //Assert
+      Assert.Equal(true, resultado.IsFailed);
     }
 
     [Fact]

@@ -23,11 +23,42 @@ namespace Cadastro_Teleatendimento.Tests
     public void CadastraTelefoneRetornaBadRequest()
     {
       //Arrange
-      CreateTelefoneDto telefoneDto = new CreateTelefoneDto();
+      CreateTelefoneDto telefoneDto = new CreateTelefoneDto() { DDD = 011, Numero = 11111111 };
       //Act
       var resultado = _telefoneController.CadastraTelefone(telefoneDto);
       //Assert
       Assert.IsType<BadRequestResult>(resultado);
+    }
+    [Fact]
+    public void DDDIncorretoRetornaBadRequest()
+    {
+      //Arrange
+      CreateTelefoneDto telefoneDto = new CreateTelefoneDto()
+      {
+        DDD = 0110,
+        Numero = 29956314,
+        IdTelefoneTipo = 2
+      };
+      //Act
+      var resultado = _telefoneController.CadastraTelefone(telefoneDto);
+      //Assert
+      Assert.IsType<BadRequestObjectResult>(resultado);
+    }
+
+    [Fact]
+    public void TelefoneIncorretoRetornaBadRequest()
+    {
+      //Arrange
+      CreateTelefoneDto telefoneDto = new CreateTelefoneDto()
+      {
+        DDD = 011,
+        Numero = 1111111111,
+        IdTelefoneTipo = 2
+      };
+      //Act
+      var resultado = _telefoneController.CadastraTelefone(telefoneDto);
+      //Assert
+      Assert.IsType<BadRequestObjectResult>(resultado);
     }
 
     [Fact]
