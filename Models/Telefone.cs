@@ -9,7 +9,7 @@ namespace Cadastro_Teleatendimento.Models
     public int IdTelefone { get; set; }
 
     [Required(ErrorMessage = "Campo obrigatório!")]
-    public int Number { get; set; }
+    public int Numero { get; set; }
 
     [Required(ErrorMessage = "Campo obrigatório!")]
     public int DDD { get; set; }
