@@ -17,7 +17,7 @@ namespace Cadastro_Teleatendimento.Controllers
     [HttpPost]
     public IActionResult CadastraTelefone(CreateTelefoneDto telefoneDto)
     {
-      ReadTelefoneDto readDto = _telefoneService.CadastraTelefone(telefoneDto);
+      ReadTelefoneDto? readDto = _telefoneService.CadastraTelefone(telefoneDto);
       if (readDto == null) return BadRequest();
 
       return CreatedAtAction(nameof(BuscaTelefonePorId), new { Id = readDto.IdTelefone }, readDto);
