@@ -10,7 +10,7 @@ namespace Cadastro_Teleatendimento.Tests.Mock
     {
       new Telefone(){IdTelefone = 1, DDD = 011, Numero = 29966314, IdTelefoneTipo = 2}
     };
-    public ReadTelefoneDto BuscaTelefonePorId(int id)
+    public ReadTelefoneDto? BuscaTelefonePorId(int id)
     {
       Telefone? telefone = telefones.FirstOrDefault(item => item.IdTelefone == id);
       if (telefone == null) return null;
