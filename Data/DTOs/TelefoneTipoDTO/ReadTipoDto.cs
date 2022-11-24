@@ -4,7 +4,7 @@ namespace Cadastro_Teleatendimento.Data.DTOs.TelefoneTipoDTO
 {
   public class ReadTipoDto
   {
-    public int IdTelefoneTipo { get; set; }
+    public int Id_Tipo { get; set; }
     public string? Tipo { get; set; }
   }
 }
