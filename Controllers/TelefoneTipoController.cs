@@ -24,7 +24,7 @@ namespace Cadastro_Teleatendimento.Controllers
 
       if (readTipoDto == null) return BadRequest();
 
-      return CreatedAtAction(nameof(telefoneTipoPorId), new { Id = readTipoDto.IdTelefoneTipo }, readTipoDto);
+      return CreatedAtAction(nameof(telefoneTipoPorId), new { Id = readTipoDto.Id_Tipo }, readTipoDto);
     }
 
     [HttpGet("{id}")]

@@ -1,3 +1,4 @@
+using AutoMapper;
 using Cadastro_Teleatendimento.Data;
 using Cadastro_Teleatendimento.Data.DTOs.TelefoneTipoDTO;
 using Cadastro_Teleatendimento.Models;
@@ -9,41 +10,44 @@ namespace Cadastro_Teleatendimento.Services
   public class TelefoneTipoService : ITelefoneTipoService
   {
     private TipoDAO _tipoDAO;
-    public TelefoneTipoService(TipoDAO tipoDAO)
+    private IMapper _mapper;
+    public TelefoneTipoService(TipoDAO tipoDAO, IMapper mapper = null)
     {
       _tipoDAO = tipoDAO;
+      _mapper = mapper;
     }
 
     public ReadTipoDto? cadastraTelefoneTipo(CreateTipoDto createTipoDto)
     {
-      TelefoneTipo tipoTel = new TelefoneTipo()
-      {
-        Tipo = createTipoDto.Tipo
-      };
 
-      if (String.IsNullOrEmpty(tipoTel.Tipo))
+      TelefoneTipo telefoneTipo = new TelefoneTipo() { Tipo = createTipoDto.Tipo.ToUpper() };
+      if (telefoneTipo == null)
         return null;
 
-      _tipoDAO.Insira(tipoTel);
+      telefoneTipo.Tipo.ToUpper();
 
-      return new ReadTipoDto()
-      {
-        IdTelefoneTipo = tipoTel.IdTelefoneTipo,
-        Tipo = tipoTel.Tipo
-      };
+      var resultado = _tipoDAO.Insira(telefoneTipo);
+
+      if (!resultado)
+        return null;
+
+      var tipo = BuscaUlitmoElemento();
+
+      return _mapper.Map<ReadTipoDto>(tipo);
     }
 
     public ReadTipoDto? TelefoneTipoPorId(int id)
     {
-      TelefoneTipo? tipoTel = _tipoDAO.consulta(id);
+      TelefoneTipo? tipoTel = _tipoDAO.BuscaPorId(id);
       if (tipoTel == null)
         return null;
 
-      return new ReadTipoDto()
-      {
-        IdTelefoneTipo = tipoTel.IdTelefoneTipo,
-        Tipo = tipoTel.Tipo
-      };
+      return _mapper.Map<ReadTipoDto>(tipoTel);
+    }
+
+    private TelefoneTipo? BuscaUlitmoElemento()
+    {
+      return _tipoDAO.UltimoInsert();
     }
   }
 }
