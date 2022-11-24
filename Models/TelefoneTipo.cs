@@ -6,7 +6,7 @@ namespace Cadastro_Teleatendimento.Models
   {
     [Key]
     [Required]
-    public int IdTelefoneTipo { get; set; }
+    public int Id_Tipo { get; set; }
 
     [Required(ErrorMessage = "Campo obrigatório!")]
     [StringLength(10, ErrorMessage = "máximo de {1} carácteres")]
