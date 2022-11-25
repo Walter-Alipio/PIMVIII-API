@@ -24,7 +24,7 @@ namespace Cadastro_Teleatendimento.Controllers
       ReadTelefoneDto? readDto = _telefoneService.CadastraTelefone(telefoneDto);
       if (readDto == null) return BadRequest();
 
-      return CreatedAtAction(nameof(BuscaTelefonePorId), new { Id = readDto.IdTelefone }, readDto);
+      return CreatedAtAction(nameof(BuscaTelefonePorId), new { Id = readDto.Id_Telefone }, readDto);
     }
 
     [HttpGet("{Id}")]
