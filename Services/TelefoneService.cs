@@ -1,3 +1,4 @@
+using AutoMapper;
 using Cadastro_Teleatendimento.Data;
 using Cadastro_Teleatendimento.Data.DTOs.TelefoneDTO;
 using Cadastro_Teleatendimento.Models;
@@ -9,49 +10,35 @@ namespace Cadastro_Teleatendimento.Services
   public class TelefoneService : ITelefoneService
   {
     private TelefoneDAO _telefoneDAO;
+    private IMapper _mapper;
 
-    public TelefoneService(TelefoneDAO telefoneDAO)
+    public TelefoneService(TelefoneDAO telefoneDAO, IMapper mapper = null)
     {
       _telefoneDAO = telefoneDAO;
+      _mapper = mapper;
     }
 
     public ReadTelefoneDto? BuscaTelefonePorId(int id)
     {
-      throw new NotImplementedException();
+      Telefone? telefone = _telefoneDAO.BuscaPorId(id);
+      if (telefone == null)
+        return null;
+
+      return _mapper.Map<ReadTelefoneDto>(telefone);
     }
 
     public ReadTelefoneDto? CadastraTelefone(CreateTelefoneDto telefoneDto)
     {
-      Telefone telefone = new Telefone()
-      {
-        DDD = telefoneDto.DDD,
-        Numero = telefoneDto.Numero,
-        IdTelefoneTipo = telefoneDto.IdTelefoneTipo
-      };
-
-      System.Console.WriteLine($"DDD: {telefone.DDD},Fone: {telefone.Numero},Id:{telefone.IdTelefoneTipo}");
-      if (telefone.DDD == 0 && telefone.Numero == 0 && telefone.IdTelefoneTipo == 0)
+      Telefone? telefone = _mapper.Map<Telefone>(telefoneDto);
+      if (telefone.DDD == 0 && telefone.Numero == 0 && telefone.Fk_Tipo == 0)
         return null;
 
 
-      try
-      {
-        _telefoneDAO.Insira(telefone);
-      }
-      catch (System.Exception e)
-      {
-        System.Console.WriteLine(e.Message);
-        System.Console.WriteLine(e.StackTrace);
+      bool retsultado = _telefoneDAO.Insira(telefone);
+      if (!retsultado)
         return null;
-      }
-
-      return new ReadTelefoneDto()
-      {
-        IdTelefone = telefone.IdTelefone,
-        DDD = telefone.DDD,
-        Numero = telefone.Numero,
-        IdTelefoneTipo = telefone.IdTelefoneTipo
-      };
+      var fone = _telefoneDAO.UltimoInsert();
+      return _mapper.Map<ReadTelefoneDto>(fone);
     }
 
     public Result validaTelefone(CreateTelefoneDto telefoneDto)
