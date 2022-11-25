@@ -6,7 +6,7 @@ namespace Cadastro_Teleatendimento.Models
   {
     [Key]
     [Required]
-    public int IdTelefone { get; set; }
+    public int Id_Telefone { get; set; }
 
     [Required(ErrorMessage = "Campo obrigatório!")]
     public int Numero { get; set; }
@@ -15,7 +15,7 @@ namespace Cadastro_Teleatendimento.Models
     public int DDD { get; set; }
 
     [Required(ErrorMessage = "Campo obrigatório!")]
-    public int IdTelefoneTipo { get; set; }
+    public int Fk_Tipo { get; set; }
     public virtual TelefoneTipo? Tipo { get; set; }
   }
 }
