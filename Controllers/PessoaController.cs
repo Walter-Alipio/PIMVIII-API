@@ -22,7 +22,7 @@ namespace Cadastro_Teleatendimento.Controllers
 
       if (readDto == null) return BadRequest();
 
-      return CreatedAtAction(nameof(BuscaPorId), new { Id = readDto.IdPessoa }, readDto);
+      return CreatedAtAction(nameof(BuscaPorId), new { Id = readDto.Id_Pessoa }, readDto);
     }
 
     [HttpGet("{Id}")]
