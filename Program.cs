@@ -1,4 +1,6 @@
-using Cadastro_Teleatendimento.Data;
+using Cadastro_Teleatendimento.Data.DAO;
+using Cadastro_Teleatendimento.Data.DAO.Interface;
+using Cadastro_Teleatendimento.Models;
 using Cadastro_Teleatendimento.Services;
 using Cadastro_Teleatendimento.Services.Interfaces;
 
@@ -13,10 +15,12 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<ITelefoneTipoService, TelefoneTipoService>();
 builder.Services.AddScoped<ITelefoneService, TelefoneService>();
 builder.Services.AddScoped<IEnderecoService, EnderecoService>();
+builder.Services.AddScoped<IPessoaService, PessoaService>();
 //DAO
-builder.Services.AddScoped<TipoDAO, TipoDAO>();
-builder.Services.AddScoped<TelefoneDAO, TelefoneDAO>();
-builder.Services.AddScoped<EnderecoDAO, EnderecoDAO>();
+builder.Services.AddScoped<IDatabaseObject<TelefoneTipo>, TipoDAO>();
+builder.Services.AddScoped<IDatabaseObject<Telefone>, TelefoneDAO>();
+builder.Services.AddScoped<IDatabaseObject<Endereco>, EnderecoDAO>();
+builder.Services.AddScoped<IPessoaTelefone<Pessoa>, PessoaDAO>();
 
 //Automapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

@@ -1,3 +1,5 @@
+using Cadastro_Teleatendimento.Models;
+
 namespace Cadastro_Teleatendimento.Data.DAO.Interface
 {
   public interface IDatabaseObject<T>
@@ -6,5 +8,6 @@ namespace Cadastro_Teleatendimento.Data.DAO.Interface
     T? BuscaPorId(int id);
     bool Altere(int id, T item);
     bool Exclua(int id);
+    T? UltimoInsert();
   }
 }
