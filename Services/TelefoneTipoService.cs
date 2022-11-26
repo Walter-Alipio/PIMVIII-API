@@ -10,8 +10,8 @@ namespace Cadastro_Teleatendimento.Services
   public class TelefoneTipoService : ITelefoneTipoService
   {
     private TipoDAO _tipoDAO;
-    private IMapper _mapper;
-    public TelefoneTipoService(TipoDAO tipoDAO, IMapper mapper = null)
+    private IMapper? _mapper;
+    public TelefoneTipoService(TipoDAO tipoDAO, IMapper? mapper = null)
     {
       _tipoDAO = tipoDAO;
       _mapper = mapper;
@@ -20,11 +20,11 @@ namespace Cadastro_Teleatendimento.Services
     public ReadTipoDto? cadastraTelefoneTipo(CreateTipoDto createTipoDto)
     {
 
-      TelefoneTipo telefoneTipo = new TelefoneTipo() { Tipo = createTipoDto.Tipo.ToUpper() };
+      TelefoneTipo telefoneTipo = new TelefoneTipo() { Tipo = createTipoDto.Tipo?.ToUpper() };
       if (telefoneTipo == null)
         return null;
 
-      telefoneTipo.Tipo.ToUpper();
+      telefoneTipo.Tipo?.ToUpper();
 
       var resultado = _tipoDAO.Insira(telefoneTipo);
 
@@ -33,7 +33,7 @@ namespace Cadastro_Teleatendimento.Services
 
       var tipo = BuscaUlitmoElemento();
 
-      return _mapper.Map<ReadTipoDto>(tipo);
+      return _mapper?.Map<ReadTipoDto>(tipo);
     }
 
     public ReadTipoDto? TelefoneTipoPorId(int id)

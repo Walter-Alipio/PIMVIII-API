@@ -24,7 +24,7 @@ namespace Cadastro_Teleatendimento.Data
 
     public Telefone? BuscaPorId(int id)
     {
-      Telefone tipos;
+      Telefone tel;
       var query =
         @"SELECT * 
           FROM [dbo].[Telefone] 
@@ -35,10 +35,10 @@ namespace Cadastro_Teleatendimento.Data
       {
         var resultado = connection.Query<TelDatabaseDto>(query, parametro);
 
-        tipos = converteParaTelefone(resultado);
+        tel = converteParaTelefone(resultado);
       }
 
-      return tipos;
+      return tel;
     }
 
     public bool Exclua(int id)
