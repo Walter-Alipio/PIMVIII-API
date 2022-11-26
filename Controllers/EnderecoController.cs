@@ -21,7 +21,7 @@ namespace Cadastro_Teleatendimento.Controllers
       ReadEnderecoDto? readDto = _enderecoService.CadastrarEndereco(enderecoDto);
       if (readDto == null) return BadRequest();
 
-      return CreatedAtAction(nameof(BuscaPorId), new { Id = readDto.IdEndereco }, enderecoDto);
+      return CreatedAtAction(nameof(BuscaPorId), new { Id = readDto.Id_Endereco }, readDto);
     }
 
     [HttpGet("{id}")]
