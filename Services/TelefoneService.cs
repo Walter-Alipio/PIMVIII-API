@@ -1,5 +1,6 @@
 using AutoMapper;
 using Cadastro_Teleatendimento.Data;
+using Cadastro_Teleatendimento.Data.DAO.Interface;
 using Cadastro_Teleatendimento.Data.DTOs.TelefoneDTO;
 using Cadastro_Teleatendimento.Models;
 using Cadastro_Teleatendimento.Services.Interfaces;
@@ -9,10 +10,10 @@ namespace Cadastro_Teleatendimento.Services
 {
   public class TelefoneService : ITelefoneService
   {
-    private TelefoneDAO _telefoneDAO;
+    private IDatabaseObject<Telefone> _telefoneDAO;
     private IMapper _mapper;
 
-    public TelefoneService(TelefoneDAO telefoneDAO, IMapper mapper = null)
+    public TelefoneService(IDatabaseObject<Telefone> telefoneDAO, IMapper mapper)
     {
       _telefoneDAO = telefoneDAO;
       _mapper = mapper;

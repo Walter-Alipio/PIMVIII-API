@@ -1,5 +1,6 @@
 using AutoMapper;
 using Cadastro_Teleatendimento.Data;
+using Cadastro_Teleatendimento.Data.DAO.Interface;
 using Cadastro_Teleatendimento.Data.DTOs.TelefoneTipoDTO;
 using Cadastro_Teleatendimento.Models;
 using Cadastro_Teleatendimento.Services.Interfaces;
@@ -9,9 +10,9 @@ namespace Cadastro_Teleatendimento.Services
 
   public class TelefoneTipoService : ITelefoneTipoService
   {
-    private TipoDAO _tipoDAO;
-    private IMapper? _mapper;
-    public TelefoneTipoService(TipoDAO tipoDAO, IMapper? mapper = null)
+    private IDatabaseObject<TelefoneTipo> _tipoDAO;
+    private IMapper _mapper;
+    public TelefoneTipoService(IDatabaseObject<TelefoneTipo> tipoDAO, IMapper mapper)
     {
       _tipoDAO = tipoDAO;
       _mapper = mapper;
@@ -33,7 +34,7 @@ namespace Cadastro_Teleatendimento.Services
 
       var tipo = BuscaUlitmoElemento();
 
-      return _mapper?.Map<ReadTipoDto>(tipo);
+      return _mapper.Map<ReadTipoDto>(tipo);
     }
 
     public ReadTipoDto? TelefoneTipoPorId(int id)
