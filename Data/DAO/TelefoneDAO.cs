@@ -6,7 +6,7 @@ using Cadastro_Teleatendimento.Factory;
 using Cadastro_Teleatendimento.Models;
 using Dapper;
 
-namespace Cadastro_Teleatendimento.Data
+namespace Cadastro_Teleatendimento.Data.DAO
 {
   public class TelefoneDAO : IDatabaseObject<Telefone>
   {

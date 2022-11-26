@@ -3,7 +3,7 @@ using Cadastro_Teleatendimento.Factory;
 using Cadastro_Teleatendimento.Models;
 using Dapper;
 
-namespace Cadastro_Teleatendimento.Data
+namespace Cadastro_Teleatendimento.Data.DAO
 {
   public class EnderecoDAO : IDatabaseObject<Endereco>
   {
@@ -71,7 +71,7 @@ namespace Cadastro_Teleatendimento.Data
 
     public Endereco? UltimoInsert()
     {
-      Endereco tel;
+      Endereco endereco;
       var query =
       @"SELECT * FROM [dbo].[Endereco]
         WHERE Id_Endereco = (SELECT MAX(Id_Endereco) FROM [dbo].[Endereco])";
@@ -79,10 +79,10 @@ namespace Cadastro_Teleatendimento.Data
       using (var connection = new SqlFactory().SqlConnection())
       {
         var resultado = connection.Query<Endereco>(query);
-        tel = resultado.First();
+        endereco = resultado.First();
       }
 
-      return tel;
+      return endereco;
     }
   }
 }
