@@ -11,7 +11,7 @@ namespace Cadastro_Teleatendimento.Data.DTOs.EnderecoDTO
     public int Numero { get; set; }
 
     [Required(ErrorMessage = "Campo obrigatório!")]
-    public int Cep { get; set; }
+    public string? Cep { get; set; }
 
     [Required(ErrorMessage = "Campo obrigatório!")]
     [StringLength(50, ErrorMessage = "máximo de {1} carácteres")]

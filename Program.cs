@@ -9,10 +9,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 //dependency injection
+//services
 builder.Services.AddScoped<ITelefoneTipoService, TelefoneTipoService>();
 builder.Services.AddScoped<ITelefoneService, TelefoneService>();
+builder.Services.AddScoped<IEnderecoService, EnderecoService>();
+//DAO
 builder.Services.AddScoped<TipoDAO, TipoDAO>();
 builder.Services.AddScoped<TelefoneDAO, TelefoneDAO>();
+builder.Services.AddScoped<EnderecoDAO, EnderecoDAO>();
 
 //Automapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
