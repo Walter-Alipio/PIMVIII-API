@@ -6,7 +6,7 @@ namespace Cadastro_Teleatendimento.Models
   {
     [Key]
     [Required]
-    public int IdEndereco { get; set; }
+    public int Id_Endereco { get; set; }
 
     [Required(ErrorMessage = "Campo obrigatório!")]
     public string? Logradouro { get; set; }

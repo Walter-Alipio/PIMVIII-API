@@ -6,7 +6,7 @@ namespace Cadastro_Teleatendimento.Models
   {
     [Key]
     [Required]
-    public int IdPessoa { get; set; }
+    public int Id_Pessoa { get; set; }
 
     [Required(ErrorMessage = "Campo obrigatório!")]
     [StringLength(256, ErrorMessage = "máximo de {1} carácteres")]
@@ -16,11 +16,8 @@ namespace Cadastro_Teleatendimento.Models
     public int Cpf { get; set; }
 
     [Required(ErrorMessage = "Campo obrigatório!")]
-    public int IdEndereco { get; set; }
+    public int Fk_Endereco { get; set; }
     public virtual Endereco? endereco { get; set; }
-
-    [Required(ErrorMessage = "Campo obrigatório!")]
-    public int IdTelefone { get; set; }
-    public virtual List<Telefone>? telefones { get; set; }
+    public virtual List<Telefone>? Telefone { get; set; }
   }
 }

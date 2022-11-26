@@ -13,9 +13,10 @@ namespace Cadastro_Teleatendimento.Data.DTOs.PessoaDTO
     public int Cpf { get; set; }
 
     [Required(ErrorMessage = "Campo obrigatório!")]
-    public int IdEndereco { get; set; }
+    public int Fk_Endereco { get; set; }
 
     [Required(ErrorMessage = "Campo obrigatório!")]
-    public int IdTelefone { get; set; }
+    public List<int>? Telefones { get; set; }
+
   }
 }

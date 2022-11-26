@@ -2,7 +2,7 @@ namespace Cadastro_Teleatendimento.Data.DTOs.EnderecoDTO
 {
   public class ReadEnderecoDto
   {
-    public int IdEndereco { get; set; }
+    public int Id_Endereco { get; set; }
     public string? Logradouro { get; set; }
 
     public int Numero { get; set; }
