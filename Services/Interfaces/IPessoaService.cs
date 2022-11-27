@@ -8,6 +8,7 @@ namespace Cadastro_Teleatendimento.Services.Interfaces
     ReadPessoaDto? BuscaCpf(int cpf);
     ReadPessoaDto? BuscaPorId(int id);
     ReadPessoaDto? CadastraPessoa(CreatePessoaDto pessoaDto);
+    Result AlteraDadosPessoa(UpdatePessoaDto pessoaDto);
     Result ExcluiPessoa(int Cpf);
   }
 }
