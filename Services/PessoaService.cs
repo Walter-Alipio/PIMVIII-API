@@ -3,6 +3,7 @@ using Cadastro_Teleatendimento.Data.DAO.Interface;
 using Cadastro_Teleatendimento.Data.DTOs.PessoaDTO;
 using Cadastro_Teleatendimento.Models;
 using Cadastro_Teleatendimento.Services.Interfaces;
+using FluentResults;
 
 namespace Cadastro_Teleatendimento.Services
 {
@@ -54,6 +55,16 @@ namespace Cadastro_Teleatendimento.Services
       }
 
       return _mapper.Map<ReadPessoaDto>(newPessoa);
+    }
+
+    //Delete
+    public Result ExcluiPessoa(int Cpf)
+    {
+      var resultado = _pessoaDAO.Exclua(Cpf);
+      if (!resultado)
+        return Result.Fail("Item não encontrado.");
+
+      return Result.Ok();
     }
   }
 }

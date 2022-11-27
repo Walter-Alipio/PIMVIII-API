@@ -39,6 +39,23 @@ namespace Cadastro_Teleatendimento.Data.DAO
 
       return pessoa;
     }
+    public bool Exclua(int Cpf)
+    {
+      int result = 0;
+      var query =
+      @"
+      DELETE FROM [dbo].Pessoa_Telefone WHERE Fk_Pessoa = @CPF;
+      DELETE FROM [dbo].Pessoa WHERE Cpf = @CPF;
+      ";
+      var parametro = new { CPF = Cpf };
+
+      using (var connection = new SqlFactory().SqlConnection())
+      {
+        result = connection.Execute(query, parametro);
+      }
+
+      return (result != 0 ? true : false);
+    }
 
     private List<Telefone>? BuscaTelefone(int Id_Pessoa)
     {
@@ -108,10 +125,7 @@ namespace Cadastro_Teleatendimento.Data.DAO
       return endereco;
     }
 
-    public bool Exclua(int id)
-    {
-      throw new NotImplementedException();
-    }
+
 
     public bool Insira(Pessoa item)
     {

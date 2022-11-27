@@ -1,5 +1,6 @@
 using Cadastro_Teleatendimento.Data.DTOs.PessoaDTO;
 using Cadastro_Teleatendimento.Services.Interfaces;
+using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cadastro_Teleatendimento.Controllers
@@ -43,6 +44,12 @@ namespace Cadastro_Teleatendimento.Controllers
       return pessoas == null ? NotFound() : Ok(pessoas);
     }
 
+    [HttpDelete("/CPF")]
+    public IActionResult ExcluiPessoa(int cpf)
+    {
+      Result resultado = _pessoaService.ExcluiPessoa(cpf);
 
+      return resultado.IsFailed ? NotFound() : NoContent();
+    }
   }
 }
