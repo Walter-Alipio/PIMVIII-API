@@ -45,24 +45,26 @@ namespace Cadastro_Teleatendimento.Services
       if (!resultado)
         return null;
 
-      var newPessoa = _pessoaDAO.UltimoInsert();
 
+      var newPessoa = _pessoaDAO.BuscaPorCpf(pessoa.Cpf);
       foreach (var telefone in telefones)
       {
         var resolvido = _pessoaDAO.CadastraTelefones(newPessoa!.Id_Pessoa, telefone);
 
         if (!resolvido) break;
       }
-
+      newPessoa = _pessoaDAO.BuscaPorCpf(pessoa.Cpf);
       return _mapper.Map<ReadPessoaDto>(newPessoa);
     }
 
     //Delete
     public Result ExcluiPessoa(int Cpf)
     {
-      var resultado = _pessoaDAO.Exclua(Cpf);
-      if (!resultado)
+      var pessoa = _pessoaDAO.BuscaPorCpf(Cpf);
+      if (pessoa == null)
         return Result.Fail("Item não encontrado.");
+
+      var resultado = _pessoaDAO.Exclua(pessoa.Id_Pessoa);
 
       return Result.Ok();
     }

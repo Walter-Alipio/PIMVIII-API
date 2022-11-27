@@ -1,3 +1,4 @@
+using System.Data.SqlTypes;
 using Cadastro_Teleatendimento.Data.DAO.Interface;
 using Cadastro_Teleatendimento.Data.DTOs.PessoaDTO;
 using Cadastro_Teleatendimento.Data.DTOs.TelefoneDTO;
@@ -20,7 +21,7 @@ namespace Cadastro_Teleatendimento.Data.DAO
     }
     public Pessoa? BuscaPorCpf(int Cpf)
     {
-      Pessoa pessoa;
+      Pessoa? pessoa;
       var query =
         @"SELECT * 
           FROM [dbo].[Pessoa] 
@@ -29,9 +30,11 @@ namespace Cadastro_Teleatendimento.Data.DAO
 
       using (var connection = new SqlFactory().SqlConnection())
       {
-        var resultado = connection.Query<Pessoa>(query, parametro);
+        IEnumerable<Pessoa>? resultado;
 
-        pessoa = resultado.First();
+        resultado = connection.Query<Pessoa>(query, parametro);
+        pessoa = resultado.SingleOrDefault();
+        if (pessoa == null) return null;
       }
 
       pessoa.endereco = BuscaEndereco(pessoa.Fk_Endereco);
@@ -39,15 +42,15 @@ namespace Cadastro_Teleatendimento.Data.DAO
 
       return pessoa;
     }
-    public bool Exclua(int Cpf)
+    public bool Exclua(int id)
     {
       int result = 0;
       var query =
       @"
-      DELETE FROM [dbo].Pessoa_Telefone WHERE Fk_Pessoa = @CPF;
-      DELETE FROM [dbo].Pessoa WHERE Cpf = @CPF;
+      DELETE FROM [dbo].Pessoa_Telefone WHERE Fk_Pessoa = @IdPessoa;
+      DELETE FROM [dbo].Pessoa WHERE Id_Pessoa = @IdPessoa;
       ";
-      var parametro = new { CPF = Cpf };
+      var parametro = new { IdPessoa = id };
 
       using (var connection = new SqlFactory().SqlConnection())
       {
