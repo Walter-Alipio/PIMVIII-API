@@ -18,6 +18,7 @@ namespace Cadastro_Teleatendimento.Services
       _pessoaDAO = pessoaDAO;
     }
 
+    //Get
     public ReadPessoaDto? BuscaCpf(int cpf)
     {
       Pessoa? pessoa = _pessoaDAO.BuscaPorCpf(cpf);
@@ -31,7 +32,6 @@ namespace Cadastro_Teleatendimento.Services
     {
       throw new NotImplementedException();
     }
-
     //Post
     public ReadPessoaDto? CadastraPessoa(CreatePessoaDto pessoaDto)
     {
@@ -55,6 +55,22 @@ namespace Cadastro_Teleatendimento.Services
       }
       newPessoa = _pessoaDAO.BuscaPorCpf(pessoa.Cpf);
       return _mapper.Map<ReadPessoaDto>(newPessoa);
+    }
+
+    //Put
+    public Result AlteraDadosPessoa(UpdatePessoaDto pessoaDto)
+    {
+      if (String.IsNullOrEmpty(pessoaDto.Nome) || pessoaDto.Cpf == 0 || pessoaDto.Fk_Endereco == 0 || pessoaDto.Telefones == null)
+        return Result.Fail("Dado obrigatório.");
+
+      List<int> telefones = pessoaDto.Telefones;
+
+      Pessoa pessoa = _mapper.Map<Pessoa>(pessoaDto);
+      var resultado = _pessoaDAO.Altere(pessoa);
+      if (!resultado)
+        return Result.Fail("Falha ao alterar cadastro");
+
+      return Result.Ok();
     }
 
     //Delete

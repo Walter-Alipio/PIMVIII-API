@@ -44,6 +44,14 @@ namespace Cadastro_Teleatendimento.Controllers
       return pessoas == null ? NotFound() : Ok(pessoas);
     }
 
+    [HttpPut]
+    public IActionResult AltereDadosPessoa([FromBody] UpdatePessoaDto pessoaDto)
+    {
+      Result resultado = _pessoaService.AlteraDadosPessoa(pessoaDto);
+
+      return resultado.IsFailed ? NotFound() : NoContent();
+    }
+
     [HttpDelete("/CPF")]
     public IActionResult ExcluiPessoa(int cpf)
     {

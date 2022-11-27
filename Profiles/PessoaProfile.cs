@@ -10,6 +10,8 @@ namespace Cadastro_Teleatendimento.Profiles
     {
       CreateMap<CreatePessoaDto, Pessoa>()
         .ForSourceMember(x => x.Telefones, opt => opt.DoNotValidate());
+      CreateMap<UpdatePessoaDto, Pessoa>()
+        .ForSourceMember(x => x.Telefones, opt => opt.DoNotValidate());
       CreateMap<Pessoa, ReadPessoaDto>();
     }
   }

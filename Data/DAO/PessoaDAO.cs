@@ -10,15 +10,39 @@ namespace Cadastro_Teleatendimento.Data.DAO
 {
   public class PessoaDAO : IPessoaTelefone<Pessoa>
   {
-    public bool Altere(int id, Pessoa item)
+
+    public bool Altere(Pessoa pessoa)
     {
-      throw new NotImplementedException();
+      int result = 0;
+      try
+      {
+        var query =
+      @"
+        UPDATE [dbo].Pessoa
+        SET Nome = @Nome, Cpf = @Cpf, Fk_Endereco = @FkEndereco
+        WHERE Id_Pessoa = @IdPessoa;
+      ";
+        var parametro =
+        new
+        {
+          Nome = pessoa.Nome,
+          Cpf = pessoa.Cpf,
+          FkEndereco = pessoa.Fk_Endereco,
+          IdPessoa = pessoa.Id_Pessoa
+        };
+        using (var connection = new SqlFactory().SqlConnection())
+        {
+          result = connection.Execute(query, parametro);
+        }
+      }
+      catch (System.Exception e)
+      {
+        System.Console.WriteLine(e.Message);
+        System.Console.WriteLine(e.StackTrace);
+      }
+      return (result != 0 ? true : false);
     }
 
-    public Pessoa? BuscaPorId(int id)
-    {
-      throw new NotImplementedException();
-    }
     public Pessoa? BuscaPorCpf(int Cpf)
     {
       Pessoa? pessoa;
@@ -27,30 +51,70 @@ namespace Cadastro_Teleatendimento.Data.DAO
           FROM [dbo].[Pessoa] 
           WHERE Cpf = @cpf;";
       var parametro = new { cpf = Cpf };
-
-      using (var connection = new SqlFactory().SqlConnection())
+      try
       {
-        IEnumerable<Pessoa>? resultado;
+        using (var connection = new SqlFactory().SqlConnection())
+        {
+          IEnumerable<Pessoa>? resultado;
 
-        resultado = connection.Query<Pessoa>(query, parametro);
-        pessoa = resultado.SingleOrDefault();
-        if (pessoa == null) return null;
+          resultado = connection.Query<Pessoa>(query, parametro);
+          pessoa = resultado.SingleOrDefault();
+          // if (pessoa == null) return null;
+        }
+        pessoa.endereco = BuscaEndereco(pessoa.Fk_Endereco);
+        pessoa.Telefone = BuscaTelefone(pessoa.Id_Pessoa);
       }
-
-      pessoa.endereco = BuscaEndereco(pessoa.Fk_Endereco);
-      pessoa.Telefone = BuscaTelefone(pessoa.Id_Pessoa);
-
+      catch (Exception e)
+      {
+        System.Console.WriteLine(e.Message);
+        System.Console.WriteLine(e.StackTrace);
+        return null;
+      }
       return pessoa;
     }
     public bool Exclua(int id)
     {
       int result = 0;
-      var query =
-      @"
+      try
+      {
+        var query =
+             @"
       DELETE FROM [dbo].Pessoa_Telefone WHERE Fk_Pessoa = @IdPessoa;
       DELETE FROM [dbo].Pessoa WHERE Id_Pessoa = @IdPessoa;
       ";
-      var parametro = new { IdPessoa = id };
+        var parametro = new { IdPessoa = id };
+
+        using (var connection = new SqlFactory().SqlConnection())
+        {
+          result = connection.Execute(query, parametro);
+        }
+      }
+      catch (System.Exception e)
+      {
+        System.Console.WriteLine(e.Message);
+        System.Console.WriteLine("");
+        System.Console.WriteLine(e.StackTrace);
+      }
+      return (result != 0 ? true : false);
+    }
+    public bool Insira(Pessoa item)
+    {
+      int result = 0;
+      string query =
+      @"INSERT INTO [atendimentoDB].[dbo].[Pessoa]
+        VALUES
+        (
+          @nome,
+          @cpf,
+          @fkEndereco
+        )
+       ";
+      var parametro = new
+      {
+        nome = item.Nome,
+        cpf = item.Cpf,
+        fkEndereco = item.Fk_Endereco
+      };
 
       using (var connection = new SqlFactory().SqlConnection())
       {
@@ -59,6 +123,31 @@ namespace Cadastro_Teleatendimento.Data.DAO
 
       return (result != 0 ? true : false);
     }
+    public bool CadastraTelefones(int Fk_Pessoa, int Fk_Telefone)
+    {
+      int result = 0;
+      string query =
+      @"INSERT INTO [atendimentoDB].[dbo].[Pessoa_Telefone]
+        VALUES
+        (
+          @idPessoa,
+          @idTelefone
+        )
+       ";
+      var parametro = new
+      {
+        idPessoa = Fk_Pessoa,
+        idTelefone = Fk_Telefone
+      };
+
+      using (var connection = new SqlFactory().SqlConnection())
+      {
+        result = connection.Execute(query, parametro);
+      }
+
+      return (result != 0 ? true : false);
+    }
+
 
     private List<Telefone>? BuscaTelefone(int Id_Pessoa)
     {
@@ -88,7 +177,6 @@ namespace Cadastro_Teleatendimento.Data.DAO
       }
       return telefones;
     }
-
     private List<Telefone> converteParaListaTelefone(IEnumerable<TelDatabaseDto> resultado)
     {
       List<Telefone> telefones = new();
@@ -108,7 +196,6 @@ namespace Cadastro_Teleatendimento.Data.DAO
       }
       return telefones;
     }
-
     private Endereco? BuscaEndereco(int Id_Endereco)
     {
       Endereco endereco;
@@ -127,84 +214,6 @@ namespace Cadastro_Teleatendimento.Data.DAO
 
       return endereco;
     }
-
-
-
-    public bool Insira(Pessoa item)
-    {
-      int result = 0;
-      string query =
-      @"INSERT INTO [atendimentoDB].[dbo].[Pessoa]
-        VALUES
-        (
-          @nome,
-          @cpf,
-          @fkEndereco
-        )
-       ";
-      var parametro = new
-      {
-        nome = item.Nome,
-        cpf = item.Cpf,
-        fkEndereco = item.Fk_Endereco
-      };
-
-      using (var connection = new SqlFactory().SqlConnection())
-      {
-        result = connection.Execute(query, parametro);
-      }
-
-      return (result != 0 ? true : false);
-    }
-
-    public bool CadastraTelefones(int Fk_Pessoa, int Fk_Telefone)
-    {
-      int result = 0;
-      string query =
-      @"INSERT INTO [atendimentoDB].[dbo].[Pessoa_Telefone]
-        VALUES
-        (
-          @idPessoa,
-          @idTelefone
-        )
-       ";
-      var parametro = new
-      {
-        idPessoa = Fk_Pessoa,
-        idTelefone = Fk_Telefone
-      };
-
-      using (var connection = new SqlFactory().SqlConnection())
-      {
-        result = connection.Execute(query, parametro);
-      }
-
-      return (result != 0 ? true : false);
-
-    }
-
-    public Pessoa? UltimoInsert()
-    {
-      Pessoa tel;
-      var query =
-      @"SELECT Id_Pessoa, Nome, Cpf, 
-        [dbo].Endereco.Id_Endereco, [dbo].[Endereco].Logradouro,
-        [dbo].Endereco.Numero, [dbo].Endereco.Bairro, [dbo].Endereco.Cep,
-        [dbo].[Endereco].Cidade, [dbo].Endereco.Estado
-      FROM [dbo].[Pessoa]
-        INNER JOIN [dbo].Endereco ON Fk_Endereco = Id_Endereco
-
-      WHERE Id_Pessoa = (SELECT MAX(Id_Pessoa) FROM [dbo].[Pessoa]);";
-
-      using (var connection = new SqlFactory().SqlConnection())
-      {
-        var resultado = connection.Query<PessoaDatabaseDto>(query);
-        tel = converteParaPessoa(resultado);
-      }
-
-      return tel;
-    }
-
     private Pessoa converteParaPessoa(IEnumerable<PessoaDatabaseDto> resultado)
     {
       var pessoa = resultado.FirstOrDefault();
@@ -227,7 +236,6 @@ namespace Cadastro_Teleatendimento.Data.DAO
         }
       };
     }
-
   }
 
 }
