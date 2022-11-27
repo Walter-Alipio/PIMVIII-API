@@ -33,12 +33,16 @@ namespace Cadastro_Teleatendimento.Controllers
       return readDto == null ? NotFound() : Ok(readDto);
     }
 
-    [HttpGet]
-    public IActionResult BuscaPessoa([FromQuery] int? cpf)
+    [HttpGet("/CPF")]
+    public IActionResult BuscaPessoa([FromQuery] int cpf)
     {
-      List<ReadPessoaDto>? pessoas = _pessoaService.BuscaPessoas(cpf);
+      if (cpf == 0)
+        return BadRequest("necessário informa um cpf válido");
+      ReadPessoaDto? pessoas = _pessoaService.BuscaCpf(cpf);
 
       return pessoas == null ? NotFound() : Ok(pessoas);
     }
+
+
   }
 }

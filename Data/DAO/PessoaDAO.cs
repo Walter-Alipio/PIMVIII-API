@@ -1,5 +1,6 @@
 using Cadastro_Teleatendimento.Data.DAO.Interface;
 using Cadastro_Teleatendimento.Data.DTOs.PessoaDTO;
+using Cadastro_Teleatendimento.Data.DTOs.TelefoneDTO;
 using Cadastro_Teleatendimento.Factory;
 using Cadastro_Teleatendimento.Models;
 using Dapper;
@@ -16,6 +17,95 @@ namespace Cadastro_Teleatendimento.Data.DAO
     public Pessoa? BuscaPorId(int id)
     {
       throw new NotImplementedException();
+    }
+    public Pessoa? BuscaPorCpf(int Cpf)
+    {
+      Pessoa pessoa;
+      var query =
+        @"SELECT * 
+          FROM [dbo].[Pessoa] 
+          WHERE Cpf = @cpf;";
+      var parametro = new { cpf = Cpf };
+
+      using (var connection = new SqlFactory().SqlConnection())
+      {
+        var resultado = connection.Query<Pessoa>(query, parametro);
+
+        pessoa = resultado.First();
+      }
+
+      pessoa.endereco = BuscaEndereco(pessoa.Fk_Endereco);
+      pessoa.Telefone = BuscaTelefone(pessoa.Id_Pessoa);
+
+      return pessoa;
+    }
+
+    private List<Telefone>? BuscaTelefone(int Id_Pessoa)
+    {
+      List<Telefone> telefones;
+      var query =
+        @"
+        SELECT 
+            [dbo].[Telefone].Id_Telefone,
+            [dbo].[Telefone].[DDD],
+            [dbo].[Telefone].[Numero],
+            [dbo].Telefone.Fk_Tipo,
+            [dbo].Telefone_Tipo.Id_Tipo,
+            [dbo].[Telefone_Tipo].[Tipo]
+        FROM [dbo].[Pessoa_Telefone]
+            INNER JOIN  [dbo].[Telefone] ON Id_Telefone = Fk_Telefone
+            INNER JOIN [dbo].[Telefone_Tipo] ON Id_Tipo = Fk_Tipo
+        WHERE Fk_Pessoa = @IdPessoa;
+        ";
+
+      var parametro = new { IdPessoa = Id_Pessoa };
+
+      using (var connection = new SqlFactory().SqlConnection())
+      {
+        var resultado = connection.Query<TelDatabaseDto>(query, parametro);
+
+        telefones = converteParaListaTelefone(resultado);
+      }
+      return telefones;
+    }
+
+    private List<Telefone> converteParaListaTelefone(IEnumerable<TelDatabaseDto> resultado)
+    {
+      List<Telefone> telefones = new();
+      foreach (var item in resultado)
+      {
+        telefones.Add(
+          new Telefone()
+          {
+            Id_Telefone = item.Id_Telefone,
+            DDD = item.DDD,
+            Fk_Tipo = item.Fk_Tipo,
+            Numero = item.Numero,
+            Tipo = new TelefoneTipo() { Id_Tipo = item.Id_Tipo, Tipo = item.Tipo }
+          }
+        );
+
+      }
+      return telefones;
+    }
+
+    private Endereco? BuscaEndereco(int Id_Endereco)
+    {
+      Endereco endereco;
+      var query =
+      @"
+        SELECT * FROM [dbo].[Endereco] WHERE Id_Endereco = @IdEnd;
+      ";
+      var parametro = new { IdEnd = Id_Endereco };
+
+      using (var connection = new SqlFactory().SqlConnection())
+      {
+        var resultado = connection.Query<Endereco>(query, parametro);
+
+        endereco = resultado.First();
+      }
+
+      return endereco;
     }
 
     public bool Exclua(int id)
@@ -120,5 +210,7 @@ namespace Cadastro_Teleatendimento.Data.DAO
         }
       };
     }
+
   }
+
 }

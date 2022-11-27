@@ -17,11 +17,15 @@ namespace Cadastro_Teleatendimento.Services
       _pessoaDAO = pessoaDAO;
     }
 
-    public List<ReadPessoaDto>? BuscaPessoas(int? cpf)
+    public ReadPessoaDto? BuscaCpf(int cpf)
     {
-      throw new NotImplementedException();
-    }
+      Pessoa? pessoa = _pessoaDAO.BuscaPorCpf(cpf);
+      if (pessoa == null)
+        return null;
 
+      return _mapper.Map<ReadPessoaDto>(pessoa);
+    }
+    //não implementado
     public ReadPessoaDto? BuscaPorId(int id)
     {
       throw new NotImplementedException();
@@ -44,7 +48,7 @@ namespace Cadastro_Teleatendimento.Services
 
       foreach (var telefone in telefones)
       {
-        var resolvido = _pessoaDAO.CadastraTelefones(newPessoa.Id_Pessoa, telefone);
+        var resolvido = _pessoaDAO.CadastraTelefones(newPessoa!.Id_Pessoa, telefone);
 
         if (!resolvido) break;
       }
