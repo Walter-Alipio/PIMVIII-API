@@ -19,6 +19,11 @@ namespace Cadastro_Teleatendimento.Controllers
     [HttpPost]
     public IActionResult CadastraPessoa([FromBody] CreatePessoaDto pessoaDto)
     {
+      Result cpfValido = _pessoaService.ValidaCpf(pessoaDto.Cpf!);
+
+      if (cpfValido.IsFailed) return BadRequest(cpfValido.Errors.FirstOrDefault());
+
+
       ReadPessoaDto? readDto = _pessoaService.CadastraPessoa(pessoaDto);
 
       if (readDto == null) return BadRequest();
@@ -26,19 +31,17 @@ namespace Cadastro_Teleatendimento.Controllers
       return CreatedAtAction(nameof(BuscaPorId), new { Id = readDto.Id_Pessoa }, readDto);
     }
 
-    [HttpGet("{Id}")]
-    public IActionResult BuscaPorId(int id)
+    private IActionResult BuscaPorId(int id)
     {
       ReadPessoaDto? readDto = _pessoaService.BuscaPorId(id);
 
       return readDto == null ? NotFound() : Ok(readDto);
     }
 
-    [HttpGet("/CPF")]
-    public IActionResult BuscaPessoa([FromQuery] int cpf)
+    [HttpGet("{cpf}")]
+    public IActionResult BuscaPessoa(int cpf)
     {
-      if (cpf == 0)
-        return BadRequest("necessário informa um cpf válido");
+
       ReadPessoaDto? pessoas = _pessoaService.BuscaCpf(cpf);
 
       return pessoas == null ? NotFound() : Ok(pessoas);
@@ -47,12 +50,16 @@ namespace Cadastro_Teleatendimento.Controllers
     [HttpPut]
     public IActionResult AltereDadosPessoa([FromBody] UpdatePessoaDto pessoaDto)
     {
+      Result cpfValido = _pessoaService.ValidaCpf(pessoaDto.Cpf!);
+
+      if (cpfValido.IsFailed) return BadRequest(cpfValido.Errors.FirstOrDefault());
+
       Result resultado = _pessoaService.AlteraDadosPessoa(pessoaDto);
 
       return resultado.IsFailed ? NotFound() : NoContent();
     }
 
-    [HttpDelete("/CPF")]
+    [HttpDelete("{cpf}")]
     public IActionResult ExcluiPessoa(int cpf)
     {
       Result resultado = _pessoaService.ExcluiPessoa(cpf);

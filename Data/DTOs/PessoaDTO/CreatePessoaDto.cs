@@ -10,7 +10,9 @@ namespace Cadastro_Teleatendimento.Data.DTOs.PessoaDTO
     public string? Nome { get; set; }
 
     [Required(ErrorMessage = "Campo obrigatório!")]
-    public int Cpf { get; set; }
+    [StringLength(9, ErrorMessage = "O campo deve ter {1} carácteres")]
+    [MinLength(9, ErrorMessage = "O campo deve ter {1} carácteres")]
+    public string? Cpf { get; set; }
 
     [Required(ErrorMessage = "Campo obrigatório!")]
     public int Fk_Endereco { get; set; }

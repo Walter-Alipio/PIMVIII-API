@@ -10,5 +10,6 @@ namespace Cadastro_Teleatendimento.Services.Interfaces
     ReadPessoaDto? CadastraPessoa(CreatePessoaDto pessoaDto);
     Result AlteraDadosPessoa(UpdatePessoaDto pessoaDto);
     Result ExcluiPessoa(int Cpf);
+    Result ValidaCpf(string cpf);
   }
 }

@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using AutoMapper;
 using Cadastro_Teleatendimento.Data.DAO.Interface;
 using Cadastro_Teleatendimento.Data.DTOs.PessoaDTO;
@@ -24,8 +25,13 @@ namespace Cadastro_Teleatendimento.Services
       Pessoa? pessoa = _pessoaDAO.BuscaPorCpf(cpf);
       if (pessoa == null)
         return null;
+      ReadPessoaDto readDto = _mapper.Map<ReadPessoaDto>(pessoa);
+      while (readDto.Cpf!.Length < 9)
+      {
+        readDto.Cpf = "0" + readDto.Cpf;
+      }
 
-      return _mapper.Map<ReadPessoaDto>(pessoa);
+      return readDto;
     }
     //não implementado
     public ReadPessoaDto? BuscaPorId(int id)
@@ -35,12 +41,13 @@ namespace Cadastro_Teleatendimento.Services
     //Post
     public ReadPessoaDto? CadastraPessoa(CreatePessoaDto pessoaDto)
     {
-      if (String.IsNullOrEmpty(pessoaDto.Nome) || pessoaDto.Cpf == 0 || pessoaDto.Fk_Endereco == 0 || pessoaDto.Telefones == null)
+
+      if (String.IsNullOrEmpty(pessoaDto.Nome) || String.IsNullOrEmpty(pessoaDto.Cpf) || pessoaDto.Fk_Endereco == 0 || pessoaDto.Telefones == null)
         return null;
+      Pessoa? pessoa = _mapper.Map<Pessoa>(pessoaDto);
 
       List<int> telefones = pessoaDto.Telefones;
 
-      Pessoa pessoa = _mapper.Map<Pessoa>(pessoaDto);
       var resultado = _pessoaDAO.Insira(pessoa);
       if (!resultado)
         return null;
@@ -60,7 +67,8 @@ namespace Cadastro_Teleatendimento.Services
     //Put
     public Result AlteraDadosPessoa(UpdatePessoaDto pessoaDto)
     {
-      if (String.IsNullOrEmpty(pessoaDto.Nome) || pessoaDto.Cpf == 0 || pessoaDto.Fk_Endereco == 0 || pessoaDto.Telefones == null)
+
+      if (pessoaDto.Telefones == null)
         return Result.Fail("Dado obrigatório.");
 
       List<int> telefones = pessoaDto.Telefones;
@@ -81,6 +89,16 @@ namespace Cadastro_Teleatendimento.Services
         return Result.Fail("Item não encontrado.");
 
       var resultado = _pessoaDAO.Exclua(pessoa.Id_Pessoa);
+
+      return Result.Ok();
+    }
+
+    public Result ValidaCpf(string cpf)
+    {
+      Regex pattern = new Regex(@"\d{9}");
+
+      if (!pattern.IsMatch(cpf))
+        return Result.Fail("Formato de cpf incorreto.");
 
       return Result.Ok();
     }
