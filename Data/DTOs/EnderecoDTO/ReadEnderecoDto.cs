@@ -7,7 +7,7 @@ namespace Cadastro_Teleatendimento.Data.DTOs.EnderecoDTO
 
     public int Numero { get; set; }
 
-    public int Cep { get; set; }
+    public string? Cep { get; set; }
 
     public string? Bairro { get; set; }
 

@@ -42,7 +42,15 @@ namespace Cadastro_Teleatendimento.Services
       Endereco? endereco = _enderecoDAO.BuscaPorId(id);
       if (endereco == null) return null;
 
-      return _mapper.Map<ReadEnderecoDto>(endereco);
+      ReadEnderecoDto readDto = _mapper.Map<ReadEnderecoDto>(endereco);
+      if (readDto == null)
+        return null;
+
+      while (readDto.Cep!.Length < 8)
+      {
+        readDto.Cep = "0" + readDto.Cep;
+      }
+      return readDto;
     }
     //Post
     public ReadEnderecoDto? CadastrarEndereco(CreateEnderecoDto enderecoDto)
@@ -63,7 +71,13 @@ namespace Cadastro_Teleatendimento.Services
 
       var enderecoOk = _enderecoDAO.UltimoInsert();
 
-      return _mapper.Map<ReadEnderecoDto>(enderecoOk);
+      ReadEnderecoDto readDto = _mapper.Map<ReadEnderecoDto>(enderecoOk);
+      while (readDto.Cep!.Length < 8)
+      {
+        readDto.Cep = "0" + readDto.Cep;
+      }
+
+      return readDto;
     }
   }
 }

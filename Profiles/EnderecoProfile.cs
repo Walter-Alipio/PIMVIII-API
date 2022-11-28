@@ -10,7 +10,7 @@ namespace Cadastro_Teleatendimento.Profiles
     {
       CreateMap<CreateEnderecoDto, Endereco>().ForMember(e => e.Cep, opts => opts.MapFrom(dto => Convert.ToInt32(dto.Cep)));
       CreateMap<UpdateEnderecoDto, Endereco>().ForMember(e => e.Cep, opts => opts.MapFrom(dto => Convert.ToInt32(dto.Cep)));
-      CreateMap<Endereco, ReadEnderecoDto>();
+      CreateMap<Endereco, ReadEnderecoDto>().ForMember(e => e.Cep, opt => opt.MapFrom(endereco => endereco.Cep.ToString()));
     }
   }
 }
