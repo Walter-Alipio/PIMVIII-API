@@ -3,6 +3,7 @@ using Cadastro_Teleatendimento.Data.DAO.Interface;
 using Cadastro_Teleatendimento.Data.DTOs.EnderecoDTO;
 using Cadastro_Teleatendimento.Models;
 using Cadastro_Teleatendimento.Services.Interfaces;
+using FluentResults;
 
 namespace Cadastro_Teleatendimento.Services
 {
@@ -16,7 +17,26 @@ namespace Cadastro_Teleatendimento.Services
       _enderecoDAO = enderecoDAO;
       _mapper = mapper;
     }
+    //Put
+    public Result AlteraEndereco(int id, UpdateEnderecoDto enderecoDto)
+    {
 
+      Endereco endereco = _mapper.Map<Endereco>(enderecoDto);
+      if (endereco == null)
+        return Result.Fail("Dados obrigatórios");
+
+      endereco.Logradouro!.ToUpper();
+      endereco.Bairro!.ToUpper();
+      endereco.Cidade!.ToUpper();
+      endereco.Estado!.ToUpper();
+
+      var resultado = _enderecoDAO.Altere(id, endereco);
+      if (!resultado)
+        return Result.Fail("Falha ao alterar dados.");
+
+      return Result.Ok();
+    }
+    //Get by Id
     public ReadEnderecoDto? BuscaPorId(int id)
     {
       Endereco? endereco = _enderecoDAO.BuscaPorId(id);
@@ -24,7 +44,7 @@ namespace Cadastro_Teleatendimento.Services
 
       return _mapper.Map<ReadEnderecoDto>(endereco);
     }
-
+    //Post
     public ReadEnderecoDto? CadastrarEndereco(CreateEnderecoDto enderecoDto)
     {
 

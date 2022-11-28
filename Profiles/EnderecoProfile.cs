@@ -9,7 +9,7 @@ namespace Cadastro_Teleatendimento.Profiles
     public EnderecoProfile()
     {
       CreateMap<CreateEnderecoDto, Endereco>().ForMember(e => e.Cep, opts => opts.MapFrom(dto => Convert.ToInt32(dto.Cep)));
-
+      CreateMap<UpdateEnderecoDto, Endereco>().ForMember(e => e.Cep, opts => opts.MapFrom(dto => Convert.ToInt32(dto.Cep)));
       CreateMap<Endereco, ReadEnderecoDto>();
     }
   }

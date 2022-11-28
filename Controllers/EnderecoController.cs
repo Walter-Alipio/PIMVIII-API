@@ -1,5 +1,6 @@
 using Cadastro_Teleatendimento.Data.DTOs.EnderecoDTO;
 using Cadastro_Teleatendimento.Services.Interfaces;
+using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cadastro_Teleatendimento.Controllers
@@ -31,5 +32,14 @@ namespace Cadastro_Teleatendimento.Controllers
 
       return readDto == null ? NotFound() : Ok(readDto);
     }
+
+    [HttpPut("{id}")]
+    public IActionResult AlteraEndereco(int id, UpdateEnderecoDto enderecoDto)
+    {
+      Result resultado = _enderecoService.AlteraEndereco(id, enderecoDto);
+
+      return resultado.IsFailed ? NotFound() : NoContent();
+    }
+
   }
 }
