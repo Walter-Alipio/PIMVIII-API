@@ -9,6 +9,7 @@ namespace Cadastro_Teleatendimento.Profiles
     public TelefoneTipoProfile()
     {
       CreateMap<CreateTipoDto, TelefoneTipo>();
+      CreateMap<UpdateTipoDto, TelefoneTipo>();
       CreateMap<TelefoneTipo, ReadTipoDto>();
     }
   }

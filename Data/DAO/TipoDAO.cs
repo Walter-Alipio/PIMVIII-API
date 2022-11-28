@@ -8,29 +8,56 @@ namespace Cadastro_Teleatendimento.Data.DAO
 {
   public class TipoDAO : IDatabaseObject<TelefoneTipo>
   {
-    private IDbConnection _connection;
-    public TipoDAO()
-    {
-      _connection = new SqlFactory().SqlConnection();
-    }
     public bool Altere(int id, TelefoneTipo tipo)
     {
-      throw new NotImplementedException();
+      int result = 0;
+      try
+      {
+        var query =
+        @"
+          UPDATE [dbo].Telefone_Tipo
+          SET Tipo = @Tipo
+          WHERE Id_Tipo = @IdTipo;
+        ";
+        var parametro = new { Tipo = tipo.Tipo, IdTipo = id };
+        using (var connection = new SqlFactory().SqlConnection())
+        {
+          result = connection.Execute(query, parametro);
+        }
+      }
+      catch (System.Exception e)
+      {
+        System.Console.WriteLine(e.Message);
+        System.Console.WriteLine(" ");
+        System.Console.WriteLine(e.StackTrace);
+      }
+
+      return (result != 0 ? true : false);
     }
 
     public TelefoneTipo? BuscaPorId(int id)
     {
       IEnumerable<TelefoneTipo>? tipos;
-      var query =
-        @"SELECT * FROM [atendimentoDB].[dbo].[Telefone_Tipo] WHERE Id_Tipo = @IdTipo";
-      var parametro = new { IdTipo = id };
-
-      using (_connection)
+      try
       {
-        tipos = _connection.Query<TelefoneTipo>(query, parametro);
-      }
+        var query =
+       @"SELECT * FROM [atendimentoDB].[dbo].[Telefone_Tipo] WHERE Id_Tipo = @IdTipo";
+        var parametro = new { IdTipo = id };
 
-      return tipos.First();
+        using (var connection = new SqlFactory().SqlConnection())
+        {
+          tipos = connection.Query<TelefoneTipo>(query, parametro);
+        }
+
+        return tipos.First();
+      }
+      catch (Exception e)
+      {
+        System.Console.WriteLine(e.Message);
+        System.Console.WriteLine("");
+        System.Console.WriteLine(e.StackTrace);
+        return null;
+      }
     }
 
 
@@ -46,9 +73,9 @@ namespace Cadastro_Teleatendimento.Data.DAO
        ";
       var parametro = new { tipoTelefone = tipo.Tipo };
 
-      using (_connection)
+      using (var connection = new SqlFactory().SqlConnection())
       {
-        result = _connection.Execute(query, parametro);
+        result = connection.Execute(query, parametro);
       }
 
       return (result != 0 ? true : false);
