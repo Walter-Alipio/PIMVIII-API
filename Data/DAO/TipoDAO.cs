@@ -60,7 +60,6 @@ namespace Cadastro_Teleatendimento.Data.DAO
       }
     }
 
-
     public bool Insira(TelefoneTipo tipo)
     {
       int result = 0;
@@ -81,6 +80,7 @@ namespace Cadastro_Teleatendimento.Data.DAO
       return (result != 0 ? true : false);
     }
 
+    //Não implementado
     public bool Exclua(int id)
     {
       throw new NotImplementedException();

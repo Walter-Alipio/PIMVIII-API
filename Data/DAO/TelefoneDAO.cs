@@ -72,6 +72,7 @@ namespace Cadastro_Teleatendimento.Data.DAO
       }
     }
 
+    //Não implementado
     public bool Exclua(int id)
     {
       throw new NotImplementedException();
