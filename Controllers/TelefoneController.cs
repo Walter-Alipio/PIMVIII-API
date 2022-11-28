@@ -34,5 +34,13 @@ namespace Cadastro_Teleatendimento.Controllers
 
       return readDto == null ? NotFound() : Ok(readDto);
     }
+
+    [HttpPut("{id}")]
+    public IActionResult AlteraTelefone(int id, UpdateTelefoneDto telefoneDto)
+    {
+      Result resultado = _telefoneService.AlteraTelefone(id, telefoneDto);
+
+      return resultado.IsFailed ? NotFound() : NoContent();
+    }
   }
 }

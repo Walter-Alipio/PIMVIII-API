@@ -19,6 +19,20 @@ namespace Cadastro_Teleatendimento.Services
       _mapper = mapper;
     }
 
+    public Result AlteraTelefone(int id, UpdateTelefoneDto telefoneDto)
+    {
+      Telefone telefone = _mapper.Map<Telefone>(telefoneDto);
+      if (telefone == null)
+        return Result.Fail("Dados obrigatórios");
+
+      var resultado = _telefoneDAO.Altere(id, telefone);
+      if (!resultado)
+        return Result.Fail("Falha ao atualizar dados.");
+
+      return Result.Ok();
+    }
+
+    //Get by Id
     public ReadTelefoneDto? BuscaTelefonePorId(int id)
     {
       Telefone? telefone = _telefoneDAO.BuscaPorId(id);
@@ -27,7 +41,7 @@ namespace Cadastro_Teleatendimento.Services
 
       return _mapper.Map<ReadTelefoneDto>(telefone);
     }
-
+    //Post
     public ReadTelefoneDto? CadastraTelefone(CreateTelefoneDto telefoneDto)
     {
       Telefone? telefone = _mapper.Map<Telefone>(telefoneDto);

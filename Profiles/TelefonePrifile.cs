@@ -10,7 +10,7 @@ namespace Cadastro_Teleatendimento.Profiles
     public TelefoneProfile()
     {
       CreateMap<CreateTelefoneDto, Telefone>();
-
+      CreateMap<UpdateTelefoneDto, Telefone>();
       CreateMap<Telefone, ReadTelefoneDto>();
     }
   }
