@@ -1,5 +1,4 @@
 using AutoMapper;
-using Cadastro_Teleatendimento.Data;
 using Cadastro_Teleatendimento.Data.DAO.Interface;
 using Cadastro_Teleatendimento.Data.DTOs.TelefoneTipoDTO;
 using Cadastro_Teleatendimento.Models;

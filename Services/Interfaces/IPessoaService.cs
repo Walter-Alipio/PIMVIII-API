@@ -5,11 +5,11 @@ namespace Cadastro_Teleatendimento.Services.Interfaces
 {
   public interface IPessoaService
   {
-    ReadPessoaDto? BuscaCpf(int cpf);
+    ReadPessoaDto? BuscaCpf(Int64 cpf);
     ReadPessoaDto? BuscaPorId(int id);
     ReadPessoaDto? CadastraPessoa(CreatePessoaDto pessoaDto);
     Result AlteraDadosPessoa(UpdatePessoaDto pessoaDto);
-    Result ExcluiPessoa(int Cpf);
+    Result ExcluiPessoa(Int64 Cpf);
     Result ValidaCpf(string cpf);
   }
 }

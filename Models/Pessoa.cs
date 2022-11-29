@@ -13,7 +13,7 @@ namespace Cadastro_Teleatendimento.Models
     public string? Nome { get; set; }
 
     [Required(ErrorMessage = "Campo obrigatório!")]
-    public int Cpf { get; set; }
+    public Int64 Cpf { get; set; }
 
     [Required(ErrorMessage = "Campo obrigatório!")]
     public int Fk_Endereco { get; set; }

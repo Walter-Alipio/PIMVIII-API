@@ -10,10 +10,10 @@ namespace Cadastro_Teleatendimento.Profiles
     {
       CreateMap<CreatePessoaDto, Pessoa>()
         .ForSourceMember(x => x.Telefones, opt => opt.DoNotValidate())
-        .ForMember(e => e.Cpf, opt => opt.MapFrom(dto => Convert.ToInt32(dto.Cpf)));
+        .ForMember(e => e.Cpf, opt => opt.MapFrom(dto => Convert.ToInt64(dto.Cpf)));
       CreateMap<UpdatePessoaDto, Pessoa>()
         .ForSourceMember(x => x.Telefones, opt => opt.DoNotValidate())
-        .ForMember(e => e.Cpf, opt => opt.MapFrom(dto => Convert.ToInt32(dto.Cpf)));
+        .ForMember(e => e.Cpf, opt => opt.MapFrom(dto => Convert.ToInt64(dto.Cpf)));
       CreateMap<Pessoa, ReadPessoaDto>().ForMember(e => e.Cpf, opt => opt.MapFrom(pessoa => pessoa.Cpf.ToString()));
     }
   }

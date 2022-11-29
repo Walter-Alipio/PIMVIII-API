@@ -20,13 +20,13 @@ namespace Cadastro_Teleatendimento.Services
     }
 
     //Get
-    public ReadPessoaDto? BuscaCpf(int cpf)
+    public ReadPessoaDto? BuscaCpf(Int64 cpf)
     {
       Pessoa? pessoa = _pessoaDAO.BuscaPorCpf(cpf);
       if (pessoa == null)
         return null;
       ReadPessoaDto readDto = _mapper.Map<ReadPessoaDto>(pessoa);
-      while (readDto.Cpf!.Length < 9)
+      while (readDto.Cpf!.Length < 11)
       {
         readDto.Cpf = "0" + readDto.Cpf;
       }
@@ -51,7 +51,6 @@ namespace Cadastro_Teleatendimento.Services
       var resultado = _pessoaDAO.Insira(pessoa);
       if (!resultado)
         return null;
-
 
       var newPessoa = _pessoaDAO.BuscaPorCpf(pessoa.Cpf);
       foreach (var telefone in telefones)
@@ -82,7 +81,7 @@ namespace Cadastro_Teleatendimento.Services
     }
 
     //Delete
-    public Result ExcluiPessoa(int Cpf)
+    public Result ExcluiPessoa(Int64 Cpf)
     {
       var pessoa = _pessoaDAO.BuscaPorCpf(Cpf);
       if (pessoa == null)

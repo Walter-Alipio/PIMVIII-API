@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Cadastro_Teleatendimento.Models;
 
 namespace Cadastro_Teleatendimento.Data.DTOs.PessoaDTO
 {
@@ -10,8 +9,8 @@ namespace Cadastro_Teleatendimento.Data.DTOs.PessoaDTO
     public string? Nome { get; set; }
 
     [Required(ErrorMessage = "Campo obrigatório!")]
-    [StringLength(9, ErrorMessage = "O campo deve ter {1} carácteres")]
-    [MinLength(9, ErrorMessage = "O campo deve ter {1} carácteres")]
+    [StringLength(11, ErrorMessage = "O campo deve ter {1} carácteres")]
+    [MinLength(11, ErrorMessage = "O campo deve ter {1} carácteres")]
     public string? Cpf { get; set; }
 
     [Required(ErrorMessage = "Campo obrigatório!")]

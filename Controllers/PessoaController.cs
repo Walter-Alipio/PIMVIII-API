@@ -39,7 +39,7 @@ namespace Cadastro_Teleatendimento.Controllers
     }
 
     [HttpGet("{cpf}")]
-    public IActionResult BuscaPessoa(int cpf)
+    public IActionResult BuscaPessoa(Int64 cpf)
     {
 
       ReadPessoaDto? pessoas = _pessoaService.BuscaCpf(cpf);
@@ -60,7 +60,7 @@ namespace Cadastro_Teleatendimento.Controllers
     }
 
     [HttpDelete("{cpf}")]
-    public IActionResult ExcluiPessoa(int cpf)
+    public IActionResult ExcluiPessoa(Int64 cpf)
     {
       Result resultado = _pessoaService.ExcluiPessoa(cpf);
 

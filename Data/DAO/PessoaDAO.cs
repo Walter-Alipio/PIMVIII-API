@@ -1,4 +1,4 @@
-using System.Data.SqlTypes;
+
 using Cadastro_Teleatendimento.Data.DAO.Interface;
 using Cadastro_Teleatendimento.Data.DTOs.PessoaDTO;
 using Cadastro_Teleatendimento.Data.DTOs.TelefoneDTO;
@@ -43,7 +43,7 @@ namespace Cadastro_Teleatendimento.Data.DAO
       return (result != 0 ? true : false);
     }
 
-    public Pessoa? BuscaPorCpf(int Cpf)
+    public Pessoa? BuscaPorCpf(Int64 Cpf)
     {
       Pessoa? pessoa;
       var query =

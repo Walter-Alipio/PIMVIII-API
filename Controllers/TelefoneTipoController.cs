@@ -1,6 +1,5 @@
 
 using Cadastro_Teleatendimento.Data.DTOs.TelefoneTipoDTO;
-using Cadastro_Teleatendimento.Services;
 using Cadastro_Teleatendimento.Services.Interfaces;
 using FluentResults;
 using Microsoft.AspNetCore.Mvc;
