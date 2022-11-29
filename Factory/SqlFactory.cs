@@ -8,12 +8,6 @@ namespace Cadastro_Teleatendimento.Factory
     public IDbConnection SqlConnection()
     {
       return new SqlConnection(
-        // @"
-        // Data Source=localhost;Initial Catalog=atendimentoDB;
-        // Integrated Security=true; User=sa; 
-        // Password=00a2855d183e5d52ec8e36fEE6cdeb50; 
-        // Trusted_Connection=False;
-        // TrustServerCertificate=True;"
         @"Data Source=localhost;Initial Catalog=atendimentoDB;
         Integrated Security=true; User=sa; Password=00a2855d183e5d52ec8e36fEE6cdeb50;
         Trusted_Connection=False; TrustServerCertificate=True;"
